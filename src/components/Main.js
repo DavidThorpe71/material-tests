@@ -1,5 +1,5 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
+
 import { connect } from 'react-redux';
 import Loader from 'react-loader';
 import Test from './Test';
