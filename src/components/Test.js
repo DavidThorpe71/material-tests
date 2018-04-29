@@ -44,7 +44,6 @@ class Test extends Component {
 
 
     sortUsername(users) {
-        console.log(users)
         const sortedUsers = users.sort((a, b) => {
             return a.username > b.username
         })
@@ -57,7 +56,6 @@ class Test extends Component {
         const sortedUsers = users.sort((a, b) => {
             return a.id > b.id
         })
-        console.log('Id', sortedUsers)
         this.setState({
             sortedUsers
         })
@@ -76,7 +74,6 @@ class Test extends Component {
     outputUserPosts({ posts, users }) {
         return this.state.sortedUsers.map((user) => {
             const userPosts = posts.filter((post) => post.userId === user.id);
-
             return (
                 <Card className="card">
                     <CardHeader
@@ -123,7 +120,7 @@ class Test extends Component {
                         className="sort-button"
                         label="By surname"
                         backgroundColor="#448aff"
-                        labelColor="white"
+                        labelColor="#fff"
                         onClick={this.handleSortSurname}
                     />
                 </div>
