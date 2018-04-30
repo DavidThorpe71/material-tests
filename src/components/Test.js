@@ -76,12 +76,12 @@ class Test extends Component {
                         showExpandableButton={true}
                     />
                     <CardText>
-                        {`${user.postsByUser.length} comments left`}
+                        {`${user.postsByUser.length} comments`}
                     </CardText>
-                    {user.postsByUser.map((post) => {
+                    {user.postsByUser.map((post, i) => {
                         return (
-                            <CardText expandable={true}>
-                                {post.title}
+                            <CardText key={i} expandable={true}>
+                                {`${i + 1}. ${post.title}`}
                             </CardText>
                         )
                     })}
@@ -116,7 +116,9 @@ class Test extends Component {
                         onClick={this.handleSortSurname}
                     />
                 </div>
-                {this.outputUserPosts()}
+                <div className="cards-wrap">
+                    {this.outputUserPosts()}
+                </div>
             </div>
         )
     }
