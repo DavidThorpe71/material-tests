@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-import Loader from 'react-loader';
 import Test from './Test';
 
 class Main extends React.Component {

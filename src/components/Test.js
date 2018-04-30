@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getPosts, getUsers } from '../redux/actions/actions';
 import { bindActionCreators } from 'redux';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import { createSelector } from 'reselect';
 
 class Test extends Component {
     constructor(props) {
@@ -25,23 +24,19 @@ class Test extends Component {
     componentDidMount() {
         this.props.getPosts();
         this.props.getUsers();
-        this.setState({
-            sortedUsers: this.props.users
-        })
     }
 
     handleSortUsername() {
-        this.sortUsername(this.props.users);
+        this.sortUsername(this.props.usersWithPosts);
     }
 
     handleSortId() {
-        this.sortId(this.props.users);
+        this.sortId(this.props.usersWithPosts);
     }
 
     handleSortSurname() {
-        this.sortSurname(this.props.users);
+        this.sortSurname(this.props.usersWithPosts);
     }
-
 
     sortUsername(users) {
         const sortedUsers = users.sort((a, b) => {
@@ -70,10 +65,8 @@ class Test extends Component {
         })
     }
 
-
-    outputUserPosts({ posts, users }) {
+    outputUserPosts() {
         return this.state.sortedUsers.map((user) => {
-            const userPosts = posts.filter((post) => post.userId === user.id);
             return (
                 <Card className="card">
                     <CardHeader
@@ -83,9 +76,9 @@ class Test extends Component {
                         showExpandableButton={true}
                     />
                     <CardText>
-                        {`${userPosts.length} comments left`}
+                        {`${user.postsByUser.length} comments left`}
                     </CardText>
-                    {userPosts.map((post) => {
+                    {user.postsByUser.map((post) => {
                         return (
                             <CardText expandable={true}>
                                 {post.title}
@@ -98,7 +91,6 @@ class Test extends Component {
     }
 
     render() {
-        const { posts, users } = this.props;
         return (
             <div className="content-wrap">
                 <h1>Hello Mate!</h1>
@@ -124,16 +116,24 @@ class Test extends Component {
                         onClick={this.handleSortSurname}
                     />
                 </div>
-                {this.outputUserPosts({ posts, users })}
+                {this.outputUserPosts()}
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
+    const usersWithPosts = state.getData.users.map(user => {
+        const postsByUser = state.getData.posts.filter(post => {
+            return post.userId === user.id
+        })
+        return {
+            ...user,
+            postsByUser
+        }
+    })
     return {
-        posts: state.getData.posts,
-        users: state.getData.users
+        usersWithPosts
     }
 }
 
